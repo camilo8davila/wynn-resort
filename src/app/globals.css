@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F7F7F7;
+  --foreground: #000000;
+  --primary: #5A3A27;
+  --secondary: #006F62;
+  --dark-gray: #E8E9E9;
+  --placeholder: #999999;
+  --error: #B3261E;
+  --black-dark: #101828;
+  --black-soft: #667085;
+
+  --desktop: 1440px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-border-gray: var(--dark-gray);
+  --color-placeholder-dark: var(--placeholder);
+  --color-error: var(--error);
+  --color-black-dark: var(--black-dark);
+  --color-black-soft: var(--black-soft);
+
+  --font-caslo: var(--font-caslo);
+  --font-avenir: var(--font-avenir);
+
+  --spacing-desktop: var(--desktop)
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-  }
+  } */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-primary {
+  @apply bg-secondary text-background py-4 px-6 rounded-sm transition-all focus:outline-none focus:ring cursor-pointer font-avenir text-[14px] text-center;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-secondary py-4 px-6 rounded-sm border-[1.5px] transition-all cursor-pointer font-avenir text-[14px] text-center;
+}
+
+.btn-disabled {
+  @apply bg-gray-600 text-white py-2 px-4 rounded focus:outline-none focus:ring cursor-alias;
+}
+
+.fade-in {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.react-custom-tooltip {
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  /* Propiedades de transición para una apariencia suave */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.react-custom-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Removes the default appearance */
+  margin: 0; /* Ensures no residual margin is left */
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield; /* Makes it look like a regular text field */
 }

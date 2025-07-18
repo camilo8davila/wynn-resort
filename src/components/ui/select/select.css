@@ -1,0 +1,29 @@
+@reference "../../../app/globals.css";
+.custom-select-container {
+  @apply w-full h-[60px] bg-white border-[1.5px] border-border-gray rounded-sm focus:border-transparent focus:ring-0 cursor-pointer relative
+}
+
+.placeholder,.informative {
+  @apply w-full h-full text-base
+}
+
+.placeholder {
+  @apply text-placeholder-dark
+}
+
+.panel-container {
+  @apply w-full max-h-[264px] absolute z-10 bg-white border-[1.5px] rounded-sm border-border-gray top-[65px]
+}
+
+
+/* .custom-select-container {
+  @apply w-full h-[60px] bg-white overflow-hidden border-[1.5px] border-border-gray rounded-sm focus:border-transparent focus:ring-0
+}
+
+.custom-select-field {
+  @apply w-[98%] h-full px-5 bg-white overflow-hidden
+}
+
+.placeholder {
+  @apply text-base text-placeholder-dark
+} */

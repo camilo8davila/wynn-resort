@@ -1,0 +1,9 @@
+@reference "../../../app/globals.css";
+
+.error-container {
+  @apply border-error
+}
+
+.error-input {
+  @apply text-error
+}

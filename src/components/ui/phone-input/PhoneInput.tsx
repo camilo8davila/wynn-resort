@@ -1,0 +1,160 @@
+'use client';
+import { ChangeEvent, useEffect, useId, useState } from 'react';
+
+import './phone-input.css';
+import clsx from 'clsx';
+import { OptionCountry } from '../option-country/OptionCountry';
+import { SelectOption } from '../select/Option';
+import { IoCheckmarkOutline, IoChevronDownSharp, IoSearchOutline } from 'react-icons/io5';
+
+interface State {
+  country: string;
+  number: string;
+}
+
+interface Props {
+  id: string;
+  placeholder?: string;
+  helperText?: string;
+  error?: boolean;
+  errorMessage?: string;
+  containerClassName?: string;
+  initValue: State;
+  optionCountries: SelectOption[];
+  onChange: (state: State) => void;
+}
+
+const DEFAULT_COUNTRY = {
+  value: 'ae',
+  label: 'UAE',
+  extra: '+971'
+}
+
+export const PhoneInput = ({
+  placeholder = '(___) - ____',
+  helperText,
+  error,
+  errorMessage,
+  containerClassName,
+  id,
+  optionCountries,
+  initValue,
+  onChange,
+  ...props
+}: Props) => {
+  const uniqueId = useId();
+  const inputId = id || `custom-input-${uniqueId}`;
+
+  const [inputValue, setInputValue] = useState<string>('');
+  const [countryChose, setCountryChose] = useState<SelectOption | null>();
+  const [inputSearch, setInputSearch] = useState('');
+  const [filterCountriesList, setFilterCountriesList] = useState<SelectOption[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setFilterCountriesList(optionCountries);
+    searchCountryById(initValue?.country ?? DEFAULT_COUNTRY.value);
+    if (initValue.number) {
+      setInputValue(initValue.number)
+    };
+  }, []);
+
+  const onClickCountry = (country: SelectOption) => {
+    setCountryChose(country);
+    onChangeElement();
+    setIsOpen(false);
+    resetStateWhenListIsClose()
+  }
+
+  const onChangeElement = () => {
+    if (inputValue && countryChose) {
+      onChange({ country: countryChose.value as string, number: inputValue })
+    }
+  }
+
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setInputValue(event.target.value);
+    onChangeElement();
+  }
+
+  const searchCountryById = (id: string) => {
+    const country = optionCountries.find(country => country.value === id);
+    setCountryChose(country);
+  }
+
+  const onInputSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const value = event.target.value.toLowerCase()
+    setInputSearch(value);
+    const countriesFinded = optionCountries.filter(country => country.label.toLowerCase().includes(value));
+    setFilterCountriesList(countriesFinded);
+  }
+
+  const resetStateWhenListIsClose = () => {
+    setFilterCountriesList(optionCountries);
+    setInputSearch('');
+  }
+
+  return (
+    <div className="custom-phone-container">
+      <div onClick={() => setIsOpen(value => !value)} className="w-[100px] h-full flex items-center justify-between cursor-pointer">
+        <div className='flex items-center gap-2'>
+          <span className={`fi fi-${countryChose?.value} text-2xl`}></span>
+          <IoChevronDownSharp width={10} height={5} />
+        </div>
+        <p>{countryChose?.extra}</p>
+      </div>
+      <div className="ml-2.5">
+        <input
+          id={inputId}
+          type="text"
+          className="custom-input-phone"
+          placeholder={placeholder}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+          {...props}
+          value={inputValue}
+          onChange={(e) => onChangeInput(e)}
+        />
+      </div>
+      {
+        isOpen && (
+          <div className="panel-container overflow-x-scroll">
+            <div className='py-3 px-3.5 border-b-2 border-b-border-gray flex items-center gap-1' >
+              <IoSearchOutline width={20} height={20}/>
+              <input
+                type="text"
+                className='w-full h-full outline-none'
+                placeholder='Search...'
+                value={inputSearch}
+                onChange={onInputSearchChange}
+              />
+            </div>
+            {
+              filterCountriesList.map(country => (
+                <div
+                  key={country.value}
+                  className={clsx(
+                    "item py-3 px-3.5 flex items-center justify-between cursor-pointer",
+                    {
+                      "bg-[#F9FAFB]": countryChose?.value === country.value
+                    }
+                  )}
+                  onClick={() => onClickCountry(country)}
+                >
+                  <OptionCountry shortCountry={country.value as string} label={country.label} />
+                  {
+                    countryChose?.value === country.value && (
+                      <IoCheckmarkOutline width={20} height={20} className='text-[#7F56D9]' />
+                    )
+                  }
+                </div>
+              ))
+            }
+          </div>
+        )
+      }
+    </div>
+  )
+}
