@@ -1,11 +1,16 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-
-import { Checkbox, Field, Fieldset, Input, Label, Option, OptionCountry, PhoneInput, Select, SelectOption, Tooltip } from '@/components';
 import { redirect } from 'next/navigation';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { setCookie } from 'cookies-next';
 
-interface FormInputs {
+import { useRegisterStore } from '@/store';
+import { getCountries } from '@/actions';
+import { Checkbox, Field, Fieldset, Input, Label, Option, OptionCountry, PhoneInput, Select, SelectOption, Tooltip } from '@/components';
+import { COOKIE_REGISTER_STEP_1 } from '@/utils/constants';
+
+export interface FormInputsBasic {
   firstName: string;
   lastName: string;
   gender: string;
@@ -13,43 +18,11 @@ interface FormInputs {
   email: string;
   phone: {
     country: string;
-    number: string
+    number: string;
+    indicator: string;
   },
   terms: boolean;
 }
-
-const optionsCountries: SelectOption[] = [
-  {
-    value: 'al',
-    label: 'Albania',
-    extra: '+52'
-  },
-  {
-    value: 'ae',
-    label: 'UAE',
-    extra: '+971'
-  },
-  {
-    value: 'ad',
-    label: 'Andorra',
-    extra: '+34'
-  },
-  {
-    value: 'ao',
-    label: 'Angola',
-    extra: '+1'
-  },
-  {
-    value: 'ag',
-    label: 'Antigua',
-    extra: '+523'
-  },
-  {
-    value: 'ar',
-    label: 'Argentina',
-    extra: '+36'
-  },
-];
 
 const optionsGender: SelectOption[] = [
   {
@@ -63,31 +36,36 @@ const optionsGender: SelectOption[] = [
 ];
 
 export const RegisterForm = () => {
-  const { register, handleSubmit, formState: { errors }, control } = useForm<FormInputs>({
+  const userRegisterCache = useRegisterStore(state => state.firstPage);
+  const updateRegisterCache = useRegisterStore(state => state.updateRegisterCache);
+  const [countries, setCountries] = useState<SelectOption[]>([])
+
+  const { register, handleSubmit, formState: { errors }, control } = useForm<FormInputsBasic>({
     values: {
-      firstName: 'camilo',
-      lastName: 'davila',
-      gender: 'male',
-      country: 'ae',
-      email: 'camilo7davila@gmail.com',
-      phone: {
-        country: 'ag',
-        number: '43122'
-      },
-      terms: true
+      ...userRegisterCache
     }
   });
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log({ data });
-    redirect('/auth/register/otp-verification')
+  useEffect(() => {
+    fetchCountries()
+  }, []);
+
+  const fetchCountries = async () => {
+    const countries = await getCountries();
+    setCountries(countries)
+  }
+
+  const onSubmit: SubmitHandler<FormInputsBasic> = (data) => {
+    updateRegisterCache(data);
+    setCookie(COOKIE_REGISTER_STEP_1, 'true', { maxAge: 600 });
+    redirect('/auth/register/otp-verification');
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Fieldset className='mb-5' title="Contact Details">
-        <div className='flex gap-6 mb-6'>
-          <Field>
+        <div className='block sm:flex gap-6 mb-6'>
+          <Field className="mb-6 sm:mb-0">
             <Label htmlFor="firstName">First Name *</Label>
             <Tooltip content="First Name">
               <Image
@@ -147,6 +125,7 @@ export const RegisterForm = () => {
                 <Select
                   options={optionsGender}
                   placeholder='Select gender...'
+                  error={!!errors.gender}
                   onChange={onChange}
                   initialValue={value}
                   optionToRender={({ key, ...item }) => (
@@ -173,34 +152,41 @@ export const RegisterForm = () => {
               height={12}
             />
           </Tooltip>
-          <Controller
-            control={control}
-            name="country"
-            rules={{ required: true }}
-            render={
-              ({ field: { onChange, value } }) => (
-                <Select
-                  options={optionsCountries}
-                  placeholder='Select residence country...'
-                  onChange={onChange}
-                  initialValue={value}
-                  selectedValueRender={(item) => (
-                    <div className='w-full h-full flex items-center gap-3'>
-                      <span className={`fi fi-${item.value} text-2xl`}></span> <p>{item.label}</p>
-                    </div>
-                  )}
-                  optionToRender={({ key, ...item }) => (
-                    <Option
-                      key={item.value}
-                      {...item}
-                    >
-                      <OptionCountry shortCountry={item.value! as string} label={item.label} />
-                    </Option>
-                  )}
-                />
-              )
-            }
-          />
+          {
+            countries.length !== 0 ? (
+              <Controller
+                control={control}
+                name="country"
+                rules={{ required: true }}
+                render={
+                  ({ field: { onChange, value } }) => (
+                    <Select
+                      options={countries}
+                      placeholder='Select residence country...'
+                      error={!!errors.country}
+                      onChange={onChange}
+                      initialValue={value}
+                      selectedValueRender={(item) => (
+                        <div className='w-full h-full flex items-center gap-3'>
+                          <span className={`fi fi-${item.value} text-2xl`}></span> <p>{item.label}</p>
+                        </div>
+                      )}
+                      optionToRender={({ key, ...item }) => (
+                        <Option
+                          key={item.value}
+                          {...item}
+                        >
+                          <OptionCountry shortCountry={item.value! as string} label={item.label} />
+                        </Option>
+                      )}
+                    />
+                  )
+                }
+              />
+            ) : (
+              <div className='animate-pulse w-full h-[60px] bg-gray-200 rounded-sm' />
+            )
+          }
         </Field>
       </Fieldset>
 
@@ -225,6 +211,7 @@ export const RegisterForm = () => {
           />
         </Field>
 
+
         <Field>
           <Label htmlFor="phone">Phone Number *</Label>
           <Tooltip content="Phone Number">
@@ -236,22 +223,28 @@ export const RegisterForm = () => {
             />
           </Tooltip>
 
-          <Controller
-            control={control}
-            name="phone"
-            rules={{ required: true }}
-            render={
-              ({ field: { onChange, value } }) => (
-                <PhoneInput
-                  id="phone"
-                  placeholder='(___) - ____'
-                  optionCountries={optionsCountries}
-                  onChange={onChange}
-                  initValue={value}
-                />
-              )
-            }
-          />
+          {
+            countries.length !== 0 ? (
+              <Controller
+                control={control}
+                name="phone"
+                rules={{ required: true }}
+                render={
+                  ({ field: { onChange, value } }) => (
+                    <PhoneInput
+                      id="phone"
+                      placeholder='(___) - ____'
+                      optionCountries={countries}
+                      onChange={onChange}
+                      initValue={value}
+                    />
+                  )
+                }
+              />
+            ) : (
+              <div className='animate-pulse w-full h-[60px] bg-gray-200 rounded-sm' />
+            )
+          }
         </Field>
       </Fieldset>
 
@@ -264,9 +257,11 @@ export const RegisterForm = () => {
         </span>
       </Checkbox>
 
-      <button className='btn-primary w-[210px] mt-8' type='submit'>
-        NEXT
-      </button>
+      <div className='text-center md:text-left'>
+        <button className='btn-primary w-[210px] mt-8 bottom-[-40px]' type='submit'>
+          NEXT
+        </button>
+      </div>
 
     </form>
   )

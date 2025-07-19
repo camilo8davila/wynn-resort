@@ -10,6 +10,7 @@
   --error: #B3261E;
   --black-dark: #101828;
   --black-soft: #667085;
+  --primary-hover: #008475;
 
   --desktop: 1440px;
 }
@@ -24,18 +25,13 @@
   --color-error: var(--error);
   --color-black-dark: var(--black-dark);
   --color-black-soft: var(--black-soft);
+  --color-primary-hover: var(--primary-hover);
+
 
   --font-caslo: var(--font-caslo);
   --font-avenir: var(--font-avenir);
 
   --spacing-desktop: var(--desktop)
-}
-
-@media (prefers-color-scheme: dark) {
-  /* :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  } */
 }
 
 body {
@@ -44,15 +40,15 @@ body {
 }
 
 .btn-primary {
-  @apply bg-secondary text-background py-4 px-6 rounded-sm transition-all focus:outline-none focus:ring cursor-pointer font-avenir text-[14px] text-center;
-}
-
-.btn-secondary {
-  @apply bg-transparent text-secondary py-4 px-6 rounded-sm border-[1.5px] transition-all cursor-pointer font-avenir text-[14px] text-center;
+  @apply bg-secondary text-background py-4 px-6 rounded-sm transition-all focus:outline-none focus:ring cursor-pointer font-avenir text-[12px] md:text-sm text-center hover:bg-primary-hover;
 }
 
 .btn-disabled {
-  @apply bg-gray-600 text-white py-2 px-4 rounded focus:outline-none focus:ring cursor-alias;
+  @apply bg-placeholder-dark text-background py-4 px-6 rounded-sm transition-all focus:outline-none focus:ring cursor-pointer font-avenir text-[12px] md:text-sm text-center;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-secondary py-4 px-6 rounded-sm border-[1.5px] transition-all cursor-pointer font-avenir text-[12px] md:text-sm text-center;
 }
 
 .fade-in {
@@ -94,4 +90,8 @@ input::-webkit-inner-spin-button {
 /* For Firefox */
 input[type="number"] {
   -moz-appearance: textfield; /* Makes it look like a regular text field */
+}
+
+.min-height {
+  min-height: calc(100vh - 623px)
 }

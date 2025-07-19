@@ -4,7 +4,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 interface Props {
   length: number;
-  initValue: number;
+  initValue: string;
   onChange: (code: string) => void
   error?: boolean
 }
@@ -61,7 +61,7 @@ export const OtpNumber = ({ length, initValue, onChange, error }: Props) => {
             onChange={(e) => handleChange(index, e)}
             onKeyDown={(e) => handleKeyDown(index, e)}
             className={clsx(
-              'w-20 h-20 rounded-lg border-[1.5px] font-semibold text-5xl text-center ',
+              `w-15 h-15 sm:w-20 sm:h-20 rounded-lg border-[1.5px] font-semibold text-5xl text-center `,
               {
                 "border-error text-error": error,
                 "border-primary text-primary": !error

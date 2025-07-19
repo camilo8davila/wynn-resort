@@ -1,7 +1,13 @@
+'use client';
+
+import { useUiStore } from '@/store';
 import Image from 'next/image'
 import Link from 'next/link'
+import { IoMenuSharp } from 'react-icons/io5'
 
 export const TopMenu = () => {
+  const openMenu = useUiStore(state => state.openSideMenu);
+
   return (
     <nav className="px-5 w-full bg-white">
       <div className='flex justify-between items-center h-31 max-w-desktop my-0 mx-auto'>
@@ -39,8 +45,8 @@ export const TopMenu = () => {
             />
           </button>
 
-          <button className="m-2 p-2 rounded-md transition-all hover:bg-gray-100 flex text-sm font-semibold xl:hidden cursor-pointer">
-            Menu
+          <button onClick={() => openMenu()} className="m-2 p-2 rounded-md transition-all hover:bg-gray-100 flex text-sm font-semibold xl:hidden cursor-pointer">
+            <IoMenuSharp width={50} height={50} className='text-3xl' />
           </button>
 
         </div>

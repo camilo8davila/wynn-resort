@@ -1,13 +1,17 @@
 'use client';
 import { ReactElement, useEffect, useState } from 'react';
+import { IoChevronDownOutline } from 'react-icons/io5';
 
 import { PropsOption, SelectOption } from './Option';
 import './select.css';
+import clsx from 'clsx';
 
 interface Props {
   options: SelectOption[];
   placeholder?: string;
   initialValue: string | number | null;
+  error: boolean,
+  errorMessage?: string;
   onChange?: (args: string | number) => void;
   optionToRender: (option: PropsOption) => ReactElement<PropsOption>;
   selectedValueRender?: (option: SelectOption) => ReactElement<SelectOption>;
@@ -17,6 +21,7 @@ export const Select = ({
   options,
   placeholder,
   initialValue,
+  error,
   selectedValueRender,
   optionToRender,
   onChange
@@ -45,7 +50,16 @@ export const Select = ({
 
 
   return (
-    <div className="custom-select-container">
+    <div className={
+      clsx(
+        "custom-select-container",
+        {
+          "border-error": error,
+          "border-border-gray": !error
+        }
+      )
+    }>
+      <IoChevronDownOutline width={10} height={5.5} className='absolute right-4 top-5 text-[#0A0B0D]' />
       <div className='w-full h-full px-[18px] py-5' onClick={() => setOpen(isOpen => !isOpen)}>
         {
           placeholder && !value && (

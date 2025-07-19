@@ -1,12 +1,19 @@
+import { Footer, TopMenu } from "@/components";
 
 export default function HomeLayout({
- children
+  children
 }: {
- children: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div>
-      <h1>Hello Root Layout Home</h1>
-    </div>
+    <>
+      <TopMenu />
+      <main >
+        <div>
+          {children}
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

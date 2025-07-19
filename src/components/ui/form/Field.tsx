@@ -15,27 +15,35 @@ export const Field = ({ children, className }: Props) => {
   let inputComponent = null;
   let controllerComponent = null;
   let phoneInputComponent = null;
+  let other = null;
 
   children.forEach((child) => {
     if (child.type === Label) {
       labelComponent = child
+      return;
     }
 
     if (child.type === Tooltip) {
-      tooltipComponent = child
+      tooltipComponent = child;
+      return
     }
 
     if (child.type === Input) {
-      inputComponent = child
+      inputComponent = child;
+      return
     }
 
     if (child.type === Controller) {
-      controllerComponent = child
+      controllerComponent = child;
+      return
     }
 
     if (child.type === PhoneInput) {
-      phoneInputComponent = child
+      phoneInputComponent = child;
+      return
     }
+
+    other = child
   })
 
   return (
@@ -56,6 +64,7 @@ export const Field = ({ children, className }: Props) => {
       {inputComponent && inputComponent}
       {controllerComponent && controllerComponent}
       {phoneInputComponent && phoneInputComponent}
+      {other && other}
     </div>
   )
 }

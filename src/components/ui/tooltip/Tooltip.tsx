@@ -6,12 +6,12 @@ import { createPortal } from 'react-dom';
 type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
 interface Props {
-  content: ReactNode; // Puede ser string o ReactNode (JSX)
-  children: React.ReactElement<any> & React.RefAttributes<HTMLElement>;  // El elemento que activará el tooltip
-  position?: TooltipPosition; // Posición preferida (por defecto 'top')
-  delayShow?: number; // Retraso en ms antes de mostrar
-  delayHide?: number; // Retraso en ms antes de ocultar
-  offset?: number; // Distancia en px entre el trigger y el tooltip
+  content: ReactNode;
+  children: React.ReactElement<any> & React.RefAttributes<HTMLElement>; 
+  position?: TooltipPosition;
+  delayShow?: number;
+  delayHide?: number;
+  offset?: number;
   className?: HTMLAttributes<HTMLLegendElement> | string;
 }
 
@@ -35,7 +35,6 @@ export const Tooltip = ({
 
   const tooltipId = useRef(`tooltip-${Math.random().toString(36).substr(2, 9)}`);
 
-  // --- Lógica de Posicionamiento ---
   const calculatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current) return;
 
@@ -45,7 +44,6 @@ export const Tooltip = ({
     let top = 0;
     let left = 0;
 
-    // Lógica de posicionamiento (la misma que antes)
     switch (position) {
       case 'top':
         top = triggerRect.top - tooltipRect.height - offset;
@@ -65,13 +63,8 @@ export const Tooltip = ({
         break;
     }
 
-    // Ajustes básicos para el viewport
-    // No olvides considerar el scroll y la posición fija/absoluta
     setTooltipStyle({
       position: 'absolute',
-      // window.scrollY y window.scrollX son para asegurar que el tooltip se posicione
-      // correctamente en relación con el documento, no solo el viewport.
-      // Si usas 'position: fixed' para el tooltip, no necesitarías sumar el scroll.
       top: `${top + window.scrollY}px`,
       left: `${left + window.scrollX}px`,
       zIndex: 9999,
@@ -107,7 +100,6 @@ export const Tooltip = ({
     hideTimeoutRef.current = setTimeout(() => setIsVisible(false), delayHide);
   }, [delayHide]);
 
-  // Clonar el hijo y añadirle props y referencias para eventos y accesibilidad
   const triggerElement = cloneElement(children, {
     ref: triggerRef,
     onMouseEnter: showTooltip,
@@ -117,12 +109,11 @@ export const Tooltip = ({
     'aria-describedby': isVisible ? tooltipId : undefined,
   });
 
-  // --- Renderizado del Tooltip (Portal) ---
   const tooltipContent = isVisible && (
     <div
       ref={tooltipRef}
       id={`${tooltipId}`}
-      role="tooltip" // Rol ARIA para tooltip
+      role="tooltip"
       className={`react-custom-tooltip ${isVisible ? 'show' : ''} ${className}`}
       style={tooltipStyle}
     >

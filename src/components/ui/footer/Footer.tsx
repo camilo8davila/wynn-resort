@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { List } from './ListFooter';
 
 const firstList = [
   "Shop Home Collection",
@@ -35,14 +36,14 @@ export const Footer = () => {
   return (
     <footer className="w-full bg-white">
       {/* Top footer */}
-      <div className='flex justify-between items-center max-w-desktop my-0 mx-auto px-[70px] py-5'>
-        <h4 className="font-caslo text-xl">Get News & Updates</h4>
+      <div className='flex justify-center lg:justify-between items-center max-w-desktop my-0 mx-auto px-2 md:px-[70px] py-5'>
+        <h4 className="font-caslo text-xl hidden lg:block">Get News & Updates</h4>
 
-        <p>Get latest developments and exciting news on <br /> how we are shaping the future!</p>
+        <p className='hidden lg:block'>Get latest developments and exciting news on <br /> how we are shaping the future!</p>
 
-        <div className="border-2 border-background px-5 py-3 flex justify-around">
-          <input placeholder="Your email address" type="text" className="outline-none w-[330px]" id="email-news" name="email-news" />
-          <button className="btn-secondary">
+        <div className="border-2 border-background px-5 py-3 flex justify-around w-full md:w-[530px]">
+          <input placeholder="Your email address" type="text" className="outline-none" id="email-news" name="email-news" />
+          <button className="btn-secondary w-[220px]">
             JOIN THE NEWSLETTER
           </button>
         </div>
@@ -50,16 +51,16 @@ export const Footer = () => {
 
       {/* Bottom footer */}
       <div className='w-full bg-primary'>
-        <div className="max-w-desktop my-0 mx-auto px-[160px] py-10 text-background font-semibold">
-          <div className='flex justify-between mb-[60px]'>
-            <List items={firstList} />
-            <List items={secondList} />
-            <List items={thirdList} />
+        <div className="max-w-[1120px] my-0 mx-auto px-2 py-10 text-background font-semibold">
+          <div className='md:flex md:flex-row justify-between mb-[60px] flex-col'>
+            <List items={firstList} className="md:text-left text-center" />
+            <List items={secondList} className="hidden md:block" />
+            <List items={thirdList} className="hidden md:block" />
             <div>
-              <List items={fourthList} />
+              <List items={fourthList} className="md:text-left text-center" />
 
-              <p className='text-xs mt-5 mb-3'>Connect with us.</p>
-              <div className='flex items-center gap-8'>
+              <p className='text-xs mt-5 mb-3 md:text-left text-center'>Connect with us.</p>
+              <div className='flex items-center gap-8 justify-center md:justify-start'>
                 <a href="www.google.com">
                   <Image src="/icons/facebook.svg" alt="fb" width={27} height={27} />
                 </a>
@@ -85,17 +86,5 @@ export const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
-
-export const List = ({ items }: { items: string[] }) => {
-  return (
-    <ul>
-      {
-        items.map((item) => (
-          <li key={item} className="mb-3 text-xs">{item}</li>
-        ))
-      }
-    </ul>
   )
 }

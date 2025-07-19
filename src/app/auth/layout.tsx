@@ -15,7 +15,7 @@ export default function AuthLayout({
   return (
     <>
       <TopMenu />
-      <main className="max-w-7xl my-0 mx-auto">
+      <main className="min-height max-w-7xl my-0 mx-auto px-2 md:px-0">
         <div>
           {children}
         </div>

@@ -3,19 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "npm run stubby & next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "stubby": "stubby -d mocks/config.yml -s 8082 -w"
   },
   "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
+    "cookies-next": "^6.1.0",
     "flag-icons": "^7.5.0",
+    "install": "^0.13.0",
+    "jose": "^6.0.12",
     "next": "15.4.1",
+    "npm": "^11.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.60.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -25,6 +33,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
+    "prisma": "^6.12.0",
+    "stubby": "^5.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

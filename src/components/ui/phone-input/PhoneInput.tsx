@@ -10,6 +10,7 @@ import { IoCheckmarkOutline, IoChevronDownSharp, IoSearchOutline } from 'react-i
 interface State {
   country: string;
   number: string;
+  indicator: string;
 }
 
 interface Props {
@@ -53,34 +54,37 @@ export const PhoneInput = ({
 
   useEffect(() => {
     setFilterCountriesList(optionCountries);
-    searchCountryById(initValue?.country ?? DEFAULT_COUNTRY.value);
+    const country = searchCountryById(initValue?.country || DEFAULT_COUNTRY.value);
     if (initValue.number) {
-      setInputValue(initValue.number)
+      setInputValue(initValue.number);
+      onChangeElement(initValue.number, country!);
     };
   }, []);
 
   const onClickCountry = (country: SelectOption) => {
     setCountryChose(country);
-    onChangeElement();
+    onChangeElement(inputValue, country);
     setIsOpen(false);
     resetStateWhenListIsClose()
   }
 
-  const onChangeElement = () => {
-    if (inputValue && countryChose) {
-      onChange({ country: countryChose.value as string, number: inputValue })
+  const onChangeElement = (number: string, country:SelectOption) => {
+    if (number && country) {
+      onChange({ country: country.value as string, number, indicator: country.extra! })
     }
   }
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
+    if(isNaN(event.target.value as any)) return;
     setInputValue(event.target.value);
-    onChangeElement();
+    onChangeElement(event.target.value, countryChose!);
   }
 
-  const searchCountryById = (id: string) => {
+  const searchCountryById = (id: string): SelectOption | undefined => {
     const country = optionCountries.find(country => country.value === id);
     setCountryChose(country);
+    return country;
   }
 
   const onInputSearchChange = (event: ChangeEvent<HTMLInputElement>) => {

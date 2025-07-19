@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 
+import { Sidebar } from '@/components/ui/sidebar/Sidebar';
 import { avenirLt, bigCaslo } from '@/config/fonts';
+
 import './globals.css';
 import "../../node_modules/flag-icons/css/flag-icons.min.css";
 
@@ -19,6 +21,7 @@ export default function RootLayout({
       <body
         className={`${bigCaslo.className} ${avenirLt.className}`}
       >
+        <Sidebar />
         {children}
         <div id="tooltip-root"></div>
       </body>

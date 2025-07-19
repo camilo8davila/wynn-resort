@@ -1,0 +1,32 @@
+[
+  {
+    "value": "al",
+    "label": "Albania",
+    "extra": "+52"
+  },
+  {
+    "value": "ae",
+    "label": "UAE",
+    "extra": "+971"
+  },
+  {
+    "value": "ad",
+    "label": "Andorra",
+    "extra": "+34"
+  },
+  {
+    "value": "ao",
+    "label": "Angola",
+    "extra": "+1"
+  },
+  {
+    "value": "ag",
+    "label": "Antigua",
+    "extra": "+523"
+  },
+  {
+    "value": "ar",
+    "label": "Argentina",
+    "extra": "+36"
+  }
+]
