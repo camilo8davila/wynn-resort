@@ -1,6 +1,12 @@
 import { GridAuth, Title } from '@/components';
 import { LoginForm } from './ui/LoginForm';
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Luxury hotel in Dubai",
+};
 
 export default function LoginPage() {
   return (

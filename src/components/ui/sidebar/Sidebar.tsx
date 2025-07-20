@@ -40,20 +40,10 @@ export const Sidebar = () => {
         )}
       >
         <IoCloseOutline
-          size={50}
+          size={30}
           className="absolute top-5 right-5 cursor-pointer"
           onClick={() => closeMenu()}
         />
-
-        {/* Input */}
-        <div className='relative mt-14'>
-          <IoSearchOutline size={20} className='absolute top-2 left-2' />
-          <input
-            type='text'
-            placeholder='Buscar'
-            className='w-full bg-gray-50 rounded pl-10 py-1 pr-10 border-b-2 text text-xl border-gray-200 focus:outline-none focus:border-blue-500'
-          />
-        </div>
 
         <Link
           href='/'

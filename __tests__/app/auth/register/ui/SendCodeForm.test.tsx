@@ -5,7 +5,7 @@ import mockRouter from 'next-router-mock';
 
 import { SendCodeForm } from "@/app/auth/register/ui/SendCodeForm";
 import * as actions from '@/actions/auth/register';
-import * as constants from '@/utils/constants';
+import * as constants from '@/utils';
 
 const userMock = {
   id: "",

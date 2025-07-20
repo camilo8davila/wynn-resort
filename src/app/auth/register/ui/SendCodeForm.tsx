@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { deleteCookie } from 'cookies-next';
+import { bigCaslo } from '@/config/fonts';
 
 import { useRegisterStore, useUiStore } from '@/store';
 import { Fieldset, OtpNumber } from '@/components';
 import * as actions from '@/actions';
-import * as constants from '@/utils/constants';
-import { bigCaslo } from '@/config/fonts';
+import * as constants from '@/utils';
+import { isActionError } from '@/utils';
 
 interface FormInputs {
   code: string;
@@ -31,16 +32,15 @@ export const SendCodeForm = () => {
   const requestOtpCode = async () => {
     setRequestState({ error: false, errorMessaje: '' });
     showLoading(true, 'Sending otp code');
-    // if (!userRegisterCache.sendTo) {
-    //   showLoading(false);
-    //   redirect(constants.PATH_REGISTER)
-    // }
     try {
       const dataToSend = {
         sendTo: userRegisterCache.sendTo,
         contact: userRegisterCache.sendTo === 'email' ? userRegisterCache.email : `${userRegisterCache.phone.indicator}${userRegisterCache.phone.number}`
       }
-      await actions.sendOtpCode(dataToSend);
+      const data = await actions.sendOtpCode(dataToSend);
+      if (isActionError(data)) {
+        setRequestState(state => ({ ...state, error: true, errorMessaje: 'we had an error generating otp code please resend it' }));
+      }
       showLoading(false);
     } catch (error) {
       setRequestState(state => ({ ...state, error: true, errorMessaje: 'we had an error generating otp code please resend it' }));
@@ -53,7 +53,12 @@ export const SendCodeForm = () => {
     showLoading(true, 'Creating user');
     let user
     try {
-      await actions.verifyCode({ otp: data.code });
+      const response = await actions.verifyCode({ otp: data.code });
+      if (isActionError(response)) {
+        setRequestState(state => ({ ...state, error: true, errorMessaje: response.error || 'Error creating user' }))
+        showLoading(false);
+        return;
+      }
       user = await actions.createUser(userRegisterCache);
       deleteCookie(constants.COOKIE_REGISTER_STEP_1);
       deleteCookie(constants.COOKIE_REGISTER_STEP_2);

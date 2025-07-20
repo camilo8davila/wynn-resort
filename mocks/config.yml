@@ -29,3 +29,11 @@
     - status: 200
       latency: 3000
       file: api/GET_200_countries.json
+
+- request:
+    method: GET
+    url: ^/miscelanium/genders$
+  response:
+    - status: 200
+      latency: 3000
+      file: api/GET_200_genders.json

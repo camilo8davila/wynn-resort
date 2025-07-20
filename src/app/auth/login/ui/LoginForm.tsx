@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getCookie } from 'cookies-next';
-import { useUiStore } from '@/store';
-
-import { Checkbox, Field, Fieldset, Input, Label } from '@/components';
-import { COOKIE_REMEMBER_EMAIL, PATH_HOME } from '@/utils/constants';
-import * as actions from '@/actions';
 import { redirect } from 'next/navigation';
+
+import { useUiStore } from '@/store';
+import { Checkbox, Field, Fieldset, Input, Label } from '@/components';
+import { COOKIE_REMEMBER_EMAIL, PATH_HOME } from '@/utils';
+import * as actions from '@/actions';
 
 export interface FormLogin {
   email: string;

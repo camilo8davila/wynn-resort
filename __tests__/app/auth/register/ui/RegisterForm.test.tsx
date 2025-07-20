@@ -3,7 +3,9 @@ import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import { redirect } from 'next/navigation';
 
 import { RegisterForm } from "@/app/auth/register/ui/RegisterForm";
-import * as constants from '@/utils/constants';
+import * as constants from '@/utils';
+import COUNTRIES from '../../../../../mocks/api/GET_200_countries.json'
+import GENDERS from '../../../../../mocks/api/GET_200_genders.json'
 
 // Mock complex component
 jest.mock('../../../../../src/components/ui/tooltip/Tooltip', () => ({
@@ -22,17 +24,13 @@ describe('RegisterForm', () => {
   });
 
   test('should render RegisterForm', async () => {
-    const { container } = render(<RegisterForm />);
+    const { container } = render(<RegisterForm countries={COUNTRIES} genders={GENDERS} />);
 
-    await waitFor(() => {
-      expect(container).toBeTruthy();
-    });
-
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:8082/miscelanium/countries', expect.any(Object))
+    expect(container).toBeTruthy();
   });
 
   test('should render the form with inputs selects and buttons', async () => {
-    render(<RegisterForm />);
+    render(<RegisterForm countries={COUNTRIES} genders={GENDERS} />);
 
     await waitFor(() => {
       expect(screen.getByLabelText(/First Name */i)).toBeInTheDocument();
@@ -48,7 +46,7 @@ describe('RegisterForm', () => {
   });
 
   test('should redirect to /auth/register/otp-verification if form is valid', async () => {
-    render(<RegisterForm />, { wrapper: MemoryRouterProvider });
+    render(<RegisterForm countries={COUNTRIES} genders={GENDERS} />, { wrapper: MemoryRouterProvider });
 
     await waitFor(() => {
       fireEvent.change(screen.getByLabelText(/First Name */i), { target: { value: 'Camilo' } });
@@ -79,7 +77,7 @@ describe('RegisterForm', () => {
 
     await waitFor(() => {
       expect(mockedRedirect).toHaveBeenCalledTimes(1);
-      expect(mockedRedirect).toHaveBeenCalledWith(constants.PATH_REGISTER_OTP_VERIFICATION );
+      expect(mockedRedirect).toHaveBeenCalledWith(constants.PATH_REGISTER_OTP_VERIFICATION);
     });
   });
 });

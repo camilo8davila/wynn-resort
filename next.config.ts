@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.wynnresorts.com'
       }
     ]
-  }
+  },
+  output: 'standalone'
 };
 
 export default nextConfig;

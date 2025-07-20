@@ -12,13 +12,15 @@ export const TopMenu = () => {
     <nav className="px-5 w-full bg-white">
       <div className='flex justify-between items-center h-31 max-w-desktop my-0 mx-auto'>
         {/* logo */}
-        <div>
-          <Image
-            src="/wynn/logo-header.svg"
-            alt="wynn-logo"
-            width={161}
-            height={78}
-          />
+        <div className='cursor-pointer'>
+          <Link href={'/'}>
+            <Image
+              src="/wynn/logo-header.svg"
+              alt="wynn-logo"
+              width={161}
+              height={78}
+            />
+          </Link>
         </div>
 
         {/* Center menu */}

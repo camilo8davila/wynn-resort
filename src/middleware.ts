@@ -1,7 +1,7 @@
 import { type NextRequest } from 'next/server';
 
 import { authMiddleware, registerMiddleware } from './middlewares';
-import * as constant from './utils/constants';
+import * as constant from './utils';
 
 const registerRoutes = [constant.PATH_REGISTER_SEND_CODE, constant.PATH_REGISTER_OTP_VERIFICATION]
 

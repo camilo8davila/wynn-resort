@@ -1,14 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
 
 import { useRegisterStore } from '@/store';
-import { getCountries } from '@/actions';
 import { Checkbox, Field, Fieldset, Input, Label, Option, OptionCountry, PhoneInput, Select, SelectOption, Tooltip } from '@/components';
 import { COOKIE_REGISTER_STEP_1, PATH_REGISTER_OTP_VERIFICATION } from '@/utils/constants';
+
+interface Props {
+  countries: SelectOption[];
+  genders: SelectOption[];
+}
 
 export interface FormInputsBasic {
   firstName: string;
@@ -24,21 +27,9 @@ export interface FormInputsBasic {
   terms: boolean;
 }
 
-const optionsGender: SelectOption[] = [
-  {
-    value: 'male',
-    label: 'Male'
-  },
-  {
-    value: 'female',
-    label: 'Female'
-  }
-];
-
-export const RegisterForm = () => {
+export const RegisterForm = ({ countries = [], genders = [] }: Props) => {
   const userRegisterCache = useRegisterStore(state => state.firstPage);
   const updateRegisterCache = useRegisterStore(state => state.updateRegisterCache);
-  const [countries, setCountries] = useState<SelectOption[]>([])
 
   const { register, handleSubmit, formState: { errors }, control } = useForm<FormInputsBasic>({
     values: {
@@ -46,15 +37,6 @@ export const RegisterForm = () => {
     },
     mode: 'onChange'
   });
-
-  useEffect(() => {
-    fetchCountries()
-  }, []);
-
-  const fetchCountries = async () => {
-    const countries = await getCountries();
-    setCountries(countries)
-  }
 
   const onSubmit: SubmitHandler<FormInputsBasic> = (data) => {
     updateRegisterCache(data);
@@ -64,7 +46,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Fieldset className='mb-5' title="Contact Details">
+      <Fieldset className='mb-5' title="Personal Info">
         <div className='block sm:flex gap-6 mb-6'>
           <Field className="mb-6 sm:mb-0">
             <Label htmlFor="firstName">First Name *</Label>
@@ -125,7 +107,7 @@ export const RegisterForm = () => {
               ({ field: { onChange, value } }) => (
                 <Select
                   id='gender'
-                  options={optionsGender}
+                  options={genders}
                   placeholder='Select gender...'
                   error={!!errors.gender}
                   errorMessage={errors.gender?.message}

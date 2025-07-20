@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import mockRouter from 'next-router-mock';
 
-import * as constants from '@/utils/constants'
+import * as constants from '@/utils'
 
 import LoginPage from '@/app/auth/login/page';
 

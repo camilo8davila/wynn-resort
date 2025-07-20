@@ -1,6 +1,5 @@
 'use client'
 import { useUiStore } from '@/store';
-import './loader.css';
 
 export const Loader = () => {
   const isLoading = useUiStore(state => state.isLoading);

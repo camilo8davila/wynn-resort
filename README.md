@@ -6,7 +6,7 @@ This project is a technical test for the frontend developer position of Wynn Al 
 
 
 
-![Logo](https://download.logo.wine/logo/Wynn_Resorts/Wynn_Resorts-Logo.wine.png)
+![Logo](https://w7.pngwing.com/pngs/809/726/png-transparent-wynn-las-vegas-encore-las-vegas-stratosphere-las-vegas-wynn-resorts-wynn-macau-las-vegas-text-hand-logo.png)
 
 
 ## Assumption

@@ -1,5 +1,12 @@
+import { Metadata } from "next";
+
 import { GridAuth, Title } from "@/components";
 import { OtpForm } from "../ui/OtpForm";
+
+export const metadata: Metadata = {
+  title: "Register 2/3",
+  description: "Luxury hotel in Dubai",
+};
 
 export default function OtpVerificationPage() {
   return (

@@ -4,7 +4,7 @@ import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import mockRouter from 'next-router-mock';
 
 import { OtpForm } from '@/app/auth/register/ui/OtpForm';
-import * as constants from '@/utils/constants';
+import * as constants from '@/utils';
 
 describe('OtpForm', () => {
   const mockedRedirect = jest.mocked(redirect);

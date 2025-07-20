@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { FormLogin } from '@/app/auth/login/ui/LoginForm';
 import { PrismaClient, User } from '@/generated/prisma';
 import { encrypt } from '@/utils/jwt';
-import { COOKIE_REMEMBER_EMAIL } from '@/utils/constants';
+import { COOKIE_REMEMBER_EMAIL } from '@/utils';
 
 const prisma = new PrismaClient();
 const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);

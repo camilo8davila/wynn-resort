@@ -1,6 +1,12 @@
 import Image from "next/image"
+import { Metadata } from "next";
 
 import { Logout } from "./ui/Logout";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Luxury hotel in Dubai",
+};
 
 export default function HomePage() {
   return (
