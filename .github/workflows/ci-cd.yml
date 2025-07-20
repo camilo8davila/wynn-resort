@@ -28,6 +28,20 @@ jobs:
 
       - name: Run tests
         run: npm test
+        env:
+          URL_ENDPOINT: ${{ secrets.URL_ENDPOINT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       
       - name: Build project
         run: npm run build
+        env:
+          URL_ENDPOINT: ${{ secrets.URL_ENDPOINT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
