@@ -2,22 +2,30 @@
     method: POST
     url: ^/auth/otp/send-otp-code$
   response:
-    - status: 200
-      latency: 1000
+    - status: 500
+      latency: 3000
       file: api/POST_200_otp.json
 
 - request:
     method: POST
     url: ^/auth/otp/verify-code$
   response:
-    - status: 200
-      latency: 1000
+    - status: 500
+      latency: 3000
       file: api/POST_200_otp.json
+
+- request:
+    method: POST
+    url: ^/miscelanium/subscribe-newsletter$
+  response:
+    - status: 500
+      latency: 3000
+      file: api/POST_200_newsletter.json
 
 - request:
     method: GET
     url: ^/miscelanium/countries$
   response:
     - status: 200
-      latency: 5000
+      latency: 3000
       file: api/GET_200_countries.json

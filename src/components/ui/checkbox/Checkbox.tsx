@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { forwardRef, HTMLAttributes, InputHTMLAttributes, ReactNode, useId } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
 
@@ -13,6 +14,7 @@ export const Checkbox = forwardRef<HTMLInputElement, Props>((
     containerClassName,
     children,
     id,
+    error,
     ...props
   },
   ref
@@ -21,7 +23,14 @@ export const Checkbox = forwardRef<HTMLInputElement, Props>((
   const inputId = id || `custom-input-${uniqueId}`;
 
   return (
-    <div className='relative' >
+    <div
+      className={clsx(
+        'font-semibold text-base relative',
+        {
+          'text-error': error
+        }
+      )}
+    >
       <IoCheckmarkSharp width={8} height={8} className='text-white absolute left-0' />
       <label htmlFor={id}>
         <input

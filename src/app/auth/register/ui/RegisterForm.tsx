@@ -43,7 +43,8 @@ export const RegisterForm = () => {
   const { register, handleSubmit, formState: { errors }, control } = useForm<FormInputsBasic>({
     values: {
       ...userRegisterCache
-    }
+    },
+    mode: 'onChange'
   });
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export const RegisterForm = () => {
               id='firstName'
               error={!!errors.firstName}
               errorMessage={errors.firstName?.message}
-              {...register('firstName', { required: true })}
+              {...register('firstName', { required: { value: true, message: 'First Name is require' }, minLength: { value: 3, message: 'Too short 3' } })}
             />
           </Field>
 
@@ -101,7 +102,7 @@ export const RegisterForm = () => {
               id='lastName'
               error={!!errors.lastName}
               errorMessage={errors.lastName?.message}
-              {...register('lastName', { required: true })}
+              {...register('lastName', { required: { value: true, message: 'Last Name is require' }, minLength: { value: 3, message: 'Too short 3' } })}
             />
           </Field>
         </div>
@@ -119,7 +120,7 @@ export const RegisterForm = () => {
           <Controller
             control={control}
             name="gender"
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: 'Last Name is require' } }}
             render={
               ({ field: { onChange, value } }) => (
                 <Select
@@ -127,6 +128,7 @@ export const RegisterForm = () => {
                   options={optionsGender}
                   placeholder='Select gender...'
                   error={!!errors.gender}
+                  errorMessage={errors.gender?.message}
                   onChange={onChange}
                   initialValue={value}
                   optionToRender={({ key, ...item }) => (
@@ -158,7 +160,7 @@ export const RegisterForm = () => {
               <Controller
                 control={control}
                 name="country"
-                rules={{ required: true }}
+                rules={{ required: { value: true, message: 'Last Name is require' } }}
                 render={
                   ({ field: { onChange, value } }) => (
                     <Select
@@ -166,6 +168,7 @@ export const RegisterForm = () => {
                       options={countries}
                       placeholder='Select residence country...'
                       error={!!errors.country}
+                      errorMessage={errors.gender?.message}
                       onChange={onChange}
                       initialValue={value}
                       selectedValueRender={(item) => (
@@ -209,7 +212,7 @@ export const RegisterForm = () => {
             id='email'
             error={!!errors.email}
             errorMessage={errors.email?.message}
-            {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+            {...register('email', { required: { value: true, message: 'Email is require' }, pattern: { value: /^\S+@\S+$/i, message: 'Email no valid' } })}
           />
         </Field>
 
@@ -230,11 +233,15 @@ export const RegisterForm = () => {
               <Controller
                 control={control}
                 name="phone"
-                rules={{ required: true }}
+                rules={{
+                  validate: (value) => value.number.length !== 0 || 'Phone country in neccesary'
+                }}
                 render={
                   ({ field: { onChange, value } }) => (
                     <PhoneInput
                       id="phone"
+                      error={!!errors.phone}
+                      errorMessage={errors.phone?.message}
                       placeholder='(___) - ____'
                       optionCountries={countries}
                       onChange={onChange}
@@ -252,9 +259,10 @@ export const RegisterForm = () => {
 
       <Checkbox
         id='terms'
+        error={!!errors.terms}
         {...register('terms', { required: true })}
       >
-        <span className='font-semibold text-base'>
+        <span>
           I agree to the <a href="" className='underline'>terms and conditions</a> and <a href="" className='underline'>privacy policy</a>.
         </span>
       </Checkbox>

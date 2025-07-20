@@ -5,6 +5,7 @@ import { avenirLt, bigCaslo } from '@/config/fonts';
 
 import './globals.css';
 import "../../node_modules/flag-icons/css/flag-icons.min.css";
+import { Loader } from '@/components/ui/loader/Loader';
 
 export const metadata: Metadata = {
   title: "Wynn",
@@ -19,10 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${bigCaslo.className} ${avenirLt.className}`}
+        className={`${avenirLt.className}`}
       >
         <Sidebar />
         {children}
+        <Loader />
         <div id="tooltip-root"></div>
       </body>
     </html>

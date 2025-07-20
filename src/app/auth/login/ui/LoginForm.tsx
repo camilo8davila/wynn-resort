@@ -1,9 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { getCookie } from 'cookies-next';
+import { useUiStore } from '@/store';
 
 import { Checkbox, Field, Fieldset, Input, Label } from '@/components';
+import { COOKIE_REMEMBER_EMAIL, PATH_HOME } from '@/utils/constants';
 import * as actions from '@/actions';
+import { redirect } from 'next/navigation';
 
 export interface FormLogin {
   email: string;
@@ -12,28 +16,37 @@ export interface FormLogin {
 };
 
 const initialValueRequest = {
-  isLoading: false,
   error: false,
   errorMessaje: ''
 }
 
 export const LoginForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
-    // values: {
-    //   ...userRegisterCache
-    // }
+  const setLoading = useUiStore(state => state.showLoading)
+  const { setValue, register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
+    mode: 'onChange'
   });
 
   const [requestState, setRequestState] = useState(initialValueRequest);
 
+  useEffect(() => {
+    const saveEmail = getCookie(COOKIE_REMEMBER_EMAIL);
+    if (saveEmail) {
+      setValue('email', saveEmail as string)
+    }
+  }, [])
+
+
   const onSubmit = async ({ email, password, rememberEmail }: FormLogin) => {
-    setRequestState({ ...initialValueRequest, isLoading: true });
+    setLoading(true, `Looking for user ${email}`);
+    setRequestState({ ...initialValueRequest });
     const response = await actions.login({ email, password, rememberEmail });
+    setLoading(false);
     if (response.errors) {
-      setRequestState(value => ({ ...value, isLoading: false, error: true, errorMessaje: response.errors.email }));
+      setRequestState(value => ({ ...value, error: true, errorMessaje: response.errors.email }));
       return;
     }
     setRequestState(initialValueRequest);
+    redirect(PATH_HOME);
   }
 
   return (

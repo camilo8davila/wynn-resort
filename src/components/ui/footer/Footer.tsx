@@ -1,5 +1,7 @@
 import Image from 'next/image';
+
 import { List } from './ListFooter';
+import { FormFooter } from './FormFooter';
 
 const firstList = [
   "Shop Home Collection",
@@ -41,12 +43,7 @@ export const Footer = () => {
 
         <p className='hidden lg:block'>Get latest developments and exciting news on <br /> how we are shaping the future!</p>
 
-        <div className="border-2 border-background px-5 py-3 flex justify-around w-full md:w-[530px]">
-          <input placeholder="Your email address" type="text" className="outline-none" id="email-news" name="email-news" />
-          <button className="btn-secondary w-[220px]">
-            JOIN THE NEWSLETTER
-          </button>
-        </div>
+        <FormFooter />
       </div>
 
       {/* Bottom footer */}

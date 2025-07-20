@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
+import { bigCaslo } from '@/config/fonts';
 
 import { useRegisterStore } from '@/store';
 import { Fieldset, RadioGroup } from '@/components';
@@ -37,7 +38,7 @@ export const OtpForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Fieldset className="mb-10" title='OTP Verification'>
         <div className="mt-3 w-full bg-white rounded p-6 text-center">
-          <h3 className='text-black-dark text-xl mb-5'>Send Code</h3>
+          <h3 className={`${bigCaslo.className} text-black-dark text-xl mb-5`}>Send Code</h3>
           <p className='text-black-soft text-base font-semibold mb-9'>How would you like to receive the code?</p>
 
           <Controller
@@ -48,6 +49,7 @@ export const OtpForm = () => {
               ({ field: { onChange, value } }) => (
                 <RadioGroup
                   name='send'
+                  error={!!errors.sendTo}
                   items={items}
                   value={value}
                   onChange={onChange}

@@ -68,7 +68,7 @@ export const PhoneInput = ({
     resetStateWhenListIsClose()
   }
 
-  const onChangeElement = (number: string, country:SelectOption) => {
+  const onChangeElement = (number: string, country: SelectOption) => {
     if (number && country) {
       onChange({ country: country.value as string, number, indicator: country.extra! })
     }
@@ -76,7 +76,7 @@ export const PhoneInput = ({
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    if(isNaN(event.target.value as any)) return;
+    if (isNaN(event.target.value as any)) return;
     setInputValue(event.target.value);
     onChangeElement(event.target.value, countryChose!);
   }
@@ -101,64 +101,80 @@ export const PhoneInput = ({
   }
 
   return (
-    <div className="custom-phone-container">
-      <div onClick={() => setIsOpen(value => !value)} className="w-[100px] h-full flex items-center justify-between cursor-pointer">
-        <div className='flex items-center gap-2'>
-          <span className={`fi fi-${countryChose?.value} text-2xl`}></span>
-          <IoChevronDownSharp width={10} height={5} />
-        </div>
-        <p>{countryChose?.extra}</p>
-      </div>
-      <div className="ml-2.5">
-        <input
-          id={inputId}
-          type="text"
-          className="custom-input-phone"
-          placeholder={placeholder}
-          aria-invalid={error ? 'true' : undefined}
-          aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
-          {...props}
-          value={inputValue}
-          onChange={(e) => onChangeInput(e)}
-        />
-      </div>
-      {
-        isOpen && (
-          <div className="panel-container overflow-x-scroll">
-            <div className='py-3 px-3.5 border-b-2 border-b-border-gray flex items-center gap-1' >
-              <IoSearchOutline width={20} height={20}/>
-              <input
-                type="text"
-                className='w-full h-full outline-none'
-                placeholder='Search...'
-                value={inputSearch}
-                onChange={onInputSearchChange}
-              />
-            </div>
-            {
-              filterCountriesList.map(country => (
-                <div
-                  key={country.value}
-                  className={clsx(
-                    "item py-3 px-3.5 flex items-center justify-between cursor-pointer",
-                    {
-                      "bg-[#F9FAFB]": countryChose?.value === country.value
-                    }
-                  )}
-                  onClick={() => onClickCountry(country)}
-                >
-                  <OptionCountry shortCountry={country.value as string} label={country.label} />
-                  {
-                    countryChose?.value === country.value && (
-                      <IoCheckmarkOutline width={20} height={20} className='text-[#7F56D9]' />
-                    )
-                  }
-                </div>
-              ))
-            }
+    <>
+      <div className={clsx(
+        "custom-phone-container",
+        {
+          "border-error": error,
+          "border-border-gray": !error
+        }
+      )}>
+        <div role='select' onClick={() => setIsOpen(value => !value)} className="w-[100px] h-full flex items-center justify-between cursor-pointer">
+          <div className='flex items-center gap-2'>
+            <span className={`fi fi-${countryChose?.value} text-2xl`}></span>
+            <IoChevronDownSharp width={10} height={5} />
           </div>
-        )
-      }
-    </div>
+          <p>{countryChose?.extra}</p>
+        </div>
+        <div className="ml-2.5">
+          <input
+            id={inputId}
+            type="text"
+            className="custom-input-phone"
+            placeholder={placeholder}
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+            {...props}
+            value={inputValue}
+            onChange={(e) => onChangeInput(e)}
+          />
+        </div>
+        {
+          isOpen && (
+            <div className="panel-container overflow-x-scroll">
+              <div className='py-3 px-3.5 border-b-2 border-b-border-gray flex items-center gap-1' >
+                <IoSearchOutline width={20} height={20} />
+                <input
+                  type="text"
+                  className='w-full h-full outline-none'
+                  placeholder='Search...'
+                  value={inputSearch}
+                  onChange={onInputSearchChange}
+                />
+              </div>
+              {
+                filterCountriesList.map(country => (
+                  <div
+                    key={country.value}
+                    className={clsx(
+                      "item py-3 px-3.5 flex items-center justify-between cursor-pointer",
+                      {
+                        "bg-[#F9FAFB]": countryChose?.value === country.value
+                      }
+                    )}
+                    onClick={() => onClickCountry(country)}
+                    role='option'
+                  >
+                    <OptionCountry shortCountry={country.value as string} label={country.label} />
+                    {
+                      countryChose?.value === country.value && (
+                        <IoCheckmarkOutline width={20} height={20} className='text-[#7F56D9]' />
+                      )
+                    }
+                  </div>
+                ))
+              }
+            </div>
+          )
+        }
+
+      </div>
+      {/* Help or error Text */}
+      {error && errorMessage && (
+        <p id={`${id}-error`} className="helper-text custom-input-error-message error-input relative mb-2">
+          {errorMessage}
+        </p>
+      )}
+    </>
   )
 }

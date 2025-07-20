@@ -1,6 +1,7 @@
 import { forwardRef, InputHTMLAttributes, useId } from 'react';
 
 import './input.css'
+import clsx from 'clsx';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   helperText?: string;
@@ -26,7 +27,12 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     const inputId = id || `custom-input-${uniqueId}`;
 
     return (
-      <div className={`custom-input-container w-full h-[60px] bg-white border-[1.5px] border-border-gray rounded-sm focus:border-transparent focus:ring-0 ${error ? 'error-container' : ''} ${containerClassName}`}>
+      <div className={clsx(
+        `custom-input-container w-full h-[60px] bg-white border-[1.5px] border-border-gray rounded-sm focus:border-transparent focus:ring-0 ${containerClassName ? containerClassName : ''}`,
+        {
+          'error-container': error
+        }
+      )}>
         <input
           id={inputId}
           type={type}
@@ -39,12 +45,12 @@ export const Input = forwardRef<HTMLInputElement, Props>(
 
         {/* Help or error Text */}
         {helperText && !error && (
-          <p id={`${inputId}-helper`} className="custom-input-helper-text relative mb-2">
+          <p id={`${inputId}-helper`} className="helper-text custom-input-helper-text relative mb-2">
             {helperText}
           </p>
         )}
         {error && errorMessage && (
-          <p id={`${inputId}-error`} className="custom-input-error-message error-input relative mb-2">
+          <p id={`${inputId}-error`} className="helper-text custom-input-error-message error-input relative mb-2">
             {errorMessage}
           </p>
         )}

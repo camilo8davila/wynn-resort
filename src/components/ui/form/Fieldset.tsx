@@ -1,3 +1,4 @@
+import { bigCaslo } from '@/config/fonts';
 import { HTMLAttributes } from 'react';
 
 interface Props {
@@ -8,8 +9,8 @@ interface Props {
 
 export const Fieldset = ({ children, title, className }: Props) => {
   return (
-    <fieldset className={`${className}`}>
-      <legend className={`font-caslo text-[22px] underline underline-offset-8 mb-5`}>{title}</legend>
+    <fieldset className={`${className ? className : ''}`}>
+      <legend className={`${bigCaslo.className} font-thin text-[22px] underline underline-offset-8 mb-5`}>{title}</legend>
       {children}
     </fieldset>
   )

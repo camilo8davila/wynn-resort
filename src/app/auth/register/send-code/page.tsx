@@ -1,5 +1,7 @@
 import { GridAuth, Title } from '@/components';
 import { SendCodeForm } from '../ui/SendCodeForm';
+import { Suspense } from 'react';
+import { SendCodeSkeleton } from '../ui/SendCodeSkeleton';
 
 export default function SendCodePage() {
   return (
@@ -10,7 +12,10 @@ export default function SendCodePage() {
         <p className="text-2xl font-caslo text-center mb-8 sm:mb-0">Step 3 of 3</p>
       </div>
 
-      <SendCodeForm />
+      <Suspense fallback={<SendCodeSkeleton />}>
+        <SendCodeForm />
+      </Suspense>
+
     </GridAuth>
   );
 }

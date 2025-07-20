@@ -7,3 +7,4 @@ export const PATH_HOME = '/';
 
 export const COOKIE_REGISTER_STEP_1 = 'form_step_1_completed'
 export const COOKIE_REGISTER_STEP_2 = 'form_step_2_completed'
+export const COOKIE_REMEMBER_EMAIL = 'remember_email'

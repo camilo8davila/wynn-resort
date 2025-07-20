@@ -24,6 +24,7 @@ export const Select = ({
   placeholder,
   initialValue,
   error,
+  errorMessage,
   selectedValueRender,
   optionToRender,
   onChange
@@ -61,9 +62,9 @@ export const Select = ({
             "border-border-gray": !error
           }
         )
-    }>
+      }>
       <IoChevronDownOutline width={10} height={5.5} className='absolute right-4 top-5 text-[#0A0B0D]' />
-      <div 
+      <div
         id={id}
         role='select'
         className='w-full h-full px-[18px] py-5'
@@ -102,6 +103,13 @@ export const Select = ({
           </div>
         )
       }
+
+      {/* Help or error Text */}
+      {error && errorMessage && (
+        <p id={`${id}-error`} className="helper-text custom-input-error-message error-input relative mb-2">
+          {errorMessage}
+        </p>
+      )}
     </div>
   )
 }

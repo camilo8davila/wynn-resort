@@ -1,11 +1,14 @@
+import clsx from "clsx";
+
 interface Props {
   name: string;
   items: { value: string, label: string }[];
   value: string | null;
+  error: boolean;
   onChange: (value: string) => void
 }
 
-export const RadioGroup = ({ name, items, value, onChange }: Props) => {
+export const RadioGroup = ({ name, items, value, onChange, error }: Props) => {
   return (
     <div className="block sm:flex text-center items-center justify-center gap-25">
       {
@@ -19,7 +22,21 @@ export const RadioGroup = ({ name, items, value, onChange }: Props) => {
               id={name + item.value}
               checked={value === item.value}
               onChange={e => onChange(e.target.value)}
-            /> <label className="font-semibold text-base text-[#000000]" htmlFor={name + item.value}>{item.label}</label>
+            /> 
+            <label
+              className={
+                clsx(
+                  "font-semibold text-base ",
+                  {
+                    "text-[#000000]": !error,
+                    "text-error": error
+                  }
+                )
+              }
+              htmlFor={name + item.value}
+            >
+              {item.label}
+            </label>
           </div>
         ))
       }

@@ -59,7 +59,7 @@ describe('RegisterForm', () => {
 
     fireEvent.change(screen.getByLabelText(/Phone Number */i), { target: { value: '321431462' } });
 
-    const [genderSelect, countrySelect] = screen.getAllByRole('select');
+    const [genderSelect, countrySelect, countryPhoneSelect] = screen.getAllByRole('select');
 
     // Choose gender
     fireEvent.click(genderSelect);
@@ -69,6 +69,9 @@ describe('RegisterForm', () => {
     fireEvent.click(countrySelect);
     fireEvent.click(screen.getByRole('option', { name: /Albania/i }));
 
+    // Chose country phone
+    fireEvent.click(countryPhoneSelect);
+    fireEvent.click(screen.getByRole('option', { name: /Argentina/i }));
 
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /NEXT/i }));

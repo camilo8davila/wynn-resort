@@ -1,7 +1,7 @@
 @reference "../../../app/globals.css";
 
 .custom-phone-container {
-  @apply w-full h-[60px] bg-white border-[1.5px] border-border-gray rounded-sm focus:border-transparent focus:ring-0 px-5 py-[18px] flex relative
+  @apply w-full h-[60px] bg-white border-[1.5px] rounded-sm focus:border-transparent focus:ring-0 px-5 py-[18px] flex relative
 }
 
 .custom-input-phone {
