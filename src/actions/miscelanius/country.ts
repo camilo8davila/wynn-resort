@@ -1,7 +1,9 @@
 'use server';
 
+const url = process.env.URL_ENDPOINT;
+
 export const getCountries = async () => {
-  const data = await fetch(`${'http://localhost:8082'}/miscelanium/countries`, {
+  const data = await fetch(`${url}/miscelanium/countries`, {
     method: 'GET',
     cache: 'force-cache'
   });
@@ -10,7 +12,7 @@ export const getCountries = async () => {
 }
 
 export const subscribeNewsLetter = async (email: string) => {
-  const data = await fetch(`${'http://localhost:8082'}/miscelanium/subscribe-newsletter`, {
+  const data = await fetch(`${url}/miscelanium/subscribe-newsletter`, {
     method: 'POST',
     body: email,
     cache: 'no-cache'

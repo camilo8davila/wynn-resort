@@ -1,7 +1,9 @@
 'use server'
 
+const url = process.env.URL_ENDPOINT;
+
 export const sendOtpCode = async (body: { sendTo: "phone" | "email" | null, contact: string }) => {
-  const data = await fetch(`${'http://localhost:8082'}/auth/otp/send-otp-code`, {
+  const data = await fetch(`${url}/auth/otp/send-otp-code`, {
     method: 'POST',
     body: JSON.stringify(body),
     cache: 'no-cache'
@@ -12,7 +14,7 @@ export const sendOtpCode = async (body: { sendTo: "phone" | "email" | null, cont
 }
 
 export const verifyCode = async (body: { otp: string }) => {
-  const data = await fetch(`${'http://localhost:8082'}/auth/otp/verify-code`, {
+  const data = await fetch(`${url}/auth/otp/verify-code`, {
     method: 'POST',
     body: JSON.stringify(body),
     cache: 'no-cache'

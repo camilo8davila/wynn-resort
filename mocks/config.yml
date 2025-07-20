@@ -2,7 +2,7 @@
     method: POST
     url: ^/auth/otp/send-otp-code$
   response:
-    - status: 500
+    - status: 200
       latency: 3000
       file: api/POST_200_otp.json
 
@@ -10,7 +10,7 @@
     method: POST
     url: ^/auth/otp/verify-code$
   response:
-    - status: 500
+    - status: 200
       latency: 3000
       file: api/POST_200_otp.json
 
@@ -18,7 +18,7 @@
     method: POST
     url: ^/miscelanium/subscribe-newsletter$
   response:
-    - status: 500
+    - status: 200
       latency: 3000
       file: api/POST_200_newsletter.json
 
