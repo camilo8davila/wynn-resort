@@ -1,7 +1,7 @@
 import { GridAuth, Title } from '@/components';
 import { RegisterForm } from './ui/RegisterForm';
 
-export default async function RegisterPage() {
+export default function RegisterPage() {
   return (
     <GridAuth>
       <div className="w-full justify-between block sm:flex ">

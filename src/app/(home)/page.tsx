@@ -3,13 +3,9 @@ import Image from "next/image"
 import { Logout } from "./ui/Logout";
 
 export default function HomePage() {
-
-
   return (
     <div>
       <picture>
-        {/* <source media="(min-width: 1200px)" srcSet="large-image.jpg" />
-        <source media="(min-width: 768px)" srcset="medium-image.jpg" /> */}
         <Image
           src="https://cdn.wynnresorts.com/image/upload/w_auto,f_auto,q_auto,dpr_auto/c_crop,w_5120,h_2052,x_0,y_395/f_auto/q_auto/v1733426360/Wynn%20Al%20Marjan/Wynn_Al_Marjan_Island-Aerial_View-Marina_Estates"
           alt="wynn island"

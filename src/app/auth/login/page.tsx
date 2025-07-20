@@ -20,6 +20,7 @@ export default function LoginPage() {
 
       <div>
         <Link
+          data-testid="navigate-button"
           href="/auth/register"
           className="text-center text-sm underline cursonr-pointer"
         >

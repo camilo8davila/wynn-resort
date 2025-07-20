@@ -1,9 +1,9 @@
 'use client';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Checkbox, Field, Fieldset, Input, Label } from '@/components';
 import * as actions from '@/actions';
-import { useState } from 'react';
 
 export interface FormLogin {
   email: string;
@@ -81,7 +81,7 @@ export const LoginForm = () => {
       {
         requestState.error && (
           <div className='text-center'>
-            <span className="text-error mb-3">{requestState.errorMessaje} data</span>
+            <span className="text-error mb-3">{requestState.errorMessaje}</span>
           </div>
         )
       }

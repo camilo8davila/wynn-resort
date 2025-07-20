@@ -65,7 +65,7 @@ export const SendCodeForm = () => {
       console.log(error);
     }
     if (user) {
-      redirect('/')
+      redirect(constants.PATH_LOGIN)
     }
   }
 
@@ -77,7 +77,7 @@ export const SendCodeForm = () => {
           <p className='text-black-soft text-base font-semibold mb-9'>
             We've sent a code to {
               userRegisterCache.sendTo === 'email' ? (
-                <>anton@gmail.com</>
+                <>{userRegisterCache.email}</>
               ) : (
                 <b>
                   {userRegisterCache.phone.indicator} - {userRegisterCache.phone.number} &nbsp; <span className={`fi fi-${userRegisterCache.phone.country} text-lg`}></span>

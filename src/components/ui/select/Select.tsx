@@ -7,6 +7,7 @@ import './select.css';
 import clsx from 'clsx';
 
 interface Props {
+  id?: string;
   options: SelectOption[];
   placeholder?: string;
   initialValue: string | number | null;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export const Select = ({
+  id,
   options,
   placeholder,
   initialValue,
@@ -50,17 +52,23 @@ export const Select = ({
 
 
   return (
-    <div className={
-      clsx(
-        "custom-select-container",
-        {
-          "border-error": error,
-          "border-border-gray": !error
-        }
-      )
+    <div
+      className={
+        clsx(
+          "custom-select-container",
+          {
+            "border-error": error,
+            "border-border-gray": !error
+          }
+        )
     }>
       <IoChevronDownOutline width={10} height={5.5} className='absolute right-4 top-5 text-[#0A0B0D]' />
-      <div className='w-full h-full px-[18px] py-5' onClick={() => setOpen(isOpen => !isOpen)}>
+      <div 
+        id={id}
+        role='select'
+        className='w-full h-full px-[18px] py-5'
+        onClick={() => setOpen(isOpen => !isOpen)}
+      >
         {
           placeholder && !value && (
             <p className='placeholder'>{placeholder}</p>

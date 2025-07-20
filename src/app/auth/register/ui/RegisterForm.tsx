@@ -8,7 +8,7 @@ import { setCookie } from 'cookies-next';
 import { useRegisterStore } from '@/store';
 import { getCountries } from '@/actions';
 import { Checkbox, Field, Fieldset, Input, Label, Option, OptionCountry, PhoneInput, Select, SelectOption, Tooltip } from '@/components';
-import { COOKIE_REGISTER_STEP_1 } from '@/utils/constants';
+import { COOKIE_REGISTER_STEP_1, PATH_REGISTER_OTP_VERIFICATION } from '@/utils/constants';
 
 export interface FormInputsBasic {
   firstName: string;
@@ -58,7 +58,7 @@ export const RegisterForm = () => {
   const onSubmit: SubmitHandler<FormInputsBasic> = (data) => {
     updateRegisterCache(data);
     setCookie(COOKIE_REGISTER_STEP_1, 'true', { maxAge: 600 });
-    redirect('/auth/register/otp-verification');
+    redirect(PATH_REGISTER_OTP_VERIFICATION);
   }
 
   return (
@@ -123,6 +123,7 @@ export const RegisterForm = () => {
             render={
               ({ field: { onChange, value } }) => (
                 <Select
+                  id='gender'
                   options={optionsGender}
                   placeholder='Select gender...'
                   error={!!errors.gender}
@@ -161,6 +162,7 @@ export const RegisterForm = () => {
                 render={
                   ({ field: { onChange, value } }) => (
                     <Select
+                      id='country'
                       options={countries}
                       placeholder='Select residence country...'
                       error={!!errors.country}
@@ -258,11 +260,10 @@ export const RegisterForm = () => {
       </Checkbox>
 
       <div className='text-center md:text-left'>
-        <button className='btn-primary w-[210px] mt-8 bottom-[-40px]' type='submit'>
+        <button className={`btn-primary w-[210px] mt-8 bottom-[-40px]`} type='submit'>
           NEXT
         </button>
       </div>
-
     </form>
   )
 }

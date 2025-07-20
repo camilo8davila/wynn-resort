@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run stubby & next dev --turbopack",
+    "dev": "npm run stubby & next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "stubby": "stubby -d mocks/config.yml -s 8082 -w"
+    "stubby": "stubby -d mocks/config.yml -s 8082 -w",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
@@ -28,14 +31,25 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
+    "jest-fetch-mock": "^3.0.3",
+    "next-router-mock": "^1.0.2",
+    "node-fetch": "^3.3.2",
     "prisma": "^6.12.0",
     "stubby": "^5.1.0",
     "tailwindcss": "^4",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

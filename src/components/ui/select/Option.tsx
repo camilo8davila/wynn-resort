@@ -18,6 +18,9 @@ export interface PropsOption extends SelectOption {
 export const Option = ({ onClick, selected, children, ...item }: PropsOption) => {
   return (
     <div
+      role='option'
+      id={`option-${item!.value}`}
+      data-value={item!.value}
       className={clsx(
         "item py-3 px-3.5 flex items-center justify-between",
         {
