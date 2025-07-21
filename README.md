@@ -6,14 +6,16 @@ This project is a technical test for the frontend developer position of Wynn Al 
 
 
 
-![Logo](https://w7.pngwing.com/pngs/809/726/png-transparent-wynn-las-vegas-encore-las-vegas-stratosphere-las-vegas-wynn-resorts-wynn-macau-las-vegas-text-hand-logo.png)
+![Logo](https://download.logo.wine/logo/Wynn_Resorts/Wynn_Resorts-Logo.wine.png)
 
 
 ## Assumption
 
-- I follow the figma but I design more screens such as Homepage and  Loginpage where I took overt the design of those pages.
+- I follow the figma althought I design more screens such as Homepage and Loginpage where I design those pages.
 
 - The Register form did't show a password input so I decided register each user with she same password ```123456```, I belive the App send a randon password or code to create the password in next steps.
+
+- I couldn't find the exact fonts weights because the font Caslo is paid so I only found the weight bold en thin.
 
 
 ## Tech Stack
@@ -102,7 +104,7 @@ Install dependencies, I recommend use ```node v20.xx.xx```
   npm install
 ```
 
-Set up Environment variables
+Set up Environment variables, this project doesn't have external dependencies so you can start the app with the same variables in ```.template.env```
 
 ```bash
   Create a copy of .template.env end rename to .env and replace the enviroments
@@ -171,6 +173,12 @@ To run tests, run the following command
   GET /miscelanium/countries
 ```
 
+#### Get genders
+
+```http
+  GET /miscelanium/genders
+```
+
 #### Verify otp code
 
 ```http
@@ -181,6 +189,19 @@ To run tests, run the following command
 | :-------- | :------- | :------------------------- |
 | `email` | `string` | **Required**. Email to subscribe |
 
+
+
+## Deployment
+
+This project only have CI flow, I created a pipeline where check the unit test and the build, the pipeline only is launched en branch ```feat/``` and ```feature/```
+
+the main branch would be only to merge branches feat or feature
+
+```bash
+    git add .
+    git commit -m "Add | Fix | Change | Bug"
+    git push feat/ | feature/
+```
 
 
 ## Author

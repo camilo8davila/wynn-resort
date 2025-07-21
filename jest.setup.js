@@ -52,7 +52,17 @@ global.fetch = jest.fn((url, options) => {
     });
   }
 
-    if (url.includes('/auth/otp/verify-code')) {
+  if (url.includes('/auth/otp/verify-code')) {
+    return Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(otpCode),
+      text: () => Promise.resolve(JSON.stringify(otpCode)),
+      arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+    });
+  }
+
+  if (url.includes('/auth/otp/verify-code')) {
     return Promise.resolve({
       ok: true,
       status: 200,
