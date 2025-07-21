@@ -12,7 +12,6 @@ describe('OtpVerification', () => {
   test('should render OtpVerification', () => {
     const { container } = render(<OtpVerificationPage />);
     expect(container).toBeTruthy();
-
   })
 
   test('Should render RegisterPage with RegisterForm as a child', () => {

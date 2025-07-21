@@ -13,7 +13,8 @@ const customJestConfig = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/(.*)$': '<rootDir>/$1',
+    '^next/navigation$': '<rootDir>/__mocks__/next/navigation.ts',
   },
   transformIgnorePatterns: [
     '/node_modules/(?!(jose)/)',

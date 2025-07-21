@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
 import mockRouter from 'next-router-mock';
@@ -6,16 +6,11 @@ import mockRouter from 'next-router-mock';
 import { OtpForm } from '@/app/auth/register/ui/OtpForm';
 import * as constants from '@/utils';
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn()
-  })
-}));
-
 describe('OtpForm', () => {
-  // const mockedRedirect = jest.mocked(redirect);
+  const mockUseRouter = jest.mocked(useRouter());
+
   beforeEach(() => {
-    // mockedRedirect.mockClear();
+    mockUseRouter.push.mockClear();
     mockRouter.setCurrentUrl('/');
   })
 
@@ -45,10 +40,10 @@ describe('OtpForm', () => {
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /NEXT/i }));
     });
-
+    
     await waitFor(() => {
-      // expect(mockedRedirect).toHaveBeenCalledTimes(1);
-      // expect(mockedRedirect).toHaveBeenCalledWith(constants.PATH_REGISTER_SEND_CODE);
+      expect(mockUseRouter.push).toHaveBeenCalled();
+      expect(mockUseRouter.push).toHaveBeenCalledTimes(1);
     });
   });
 });
