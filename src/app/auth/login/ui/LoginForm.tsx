@@ -21,7 +21,7 @@ const initialValueRequest = {
 }
 
 export const LoginForm = () => {
-  const setLoading = useUiStore(state => state.showLoading)
+  const setLoading = useUiStore(state => state.showLoading);
   const { setValue, register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
     mode: 'onChange'
   });

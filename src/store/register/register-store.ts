@@ -8,24 +8,27 @@ export interface UserRegisterForm extends FormInputsBasic, FormInputsWayToSend {
 interface State {
   firstPage: UserRegisterForm;
 
-  updateRegisterCache: (data: Partial<UserRegisterForm>) => void
+  updateRegisterCache: (data: Partial<UserRegisterForm>) => void;
+  resetStore: () => void;
+}
+
+const initialState = {
+  firstName: '',
+  lastName: '',
+  gender: '',
+  country: '',
+  email: '',
+  phone: {
+    country: '',
+    number: '',
+    indicator: ''
+  },
+  terms: false,
+  sendTo: null
 }
 
 export const useRegisterStore = create<State>((set, get) => ({
-  firstPage: {
-    firstName: '',
-    lastName: '',
-    gender: '',
-    country: '',
-    email: '',
-    phone: {
-      country: '',
-      number: '',
-      indicator: ''
-    },
-    terms: false,
-    sendTo: null
-  },
+  firstPage: initialState,
 
   updateRegisterCache: (data: Partial<UserRegisterForm>) => {
     const { firstPage } = get();
@@ -35,5 +38,6 @@ export const useRegisterStore = create<State>((set, get) => ({
       ...data
     }
     set({ firstPage: newState })
-  }
+  },
+  resetStore: () => set({ firstPage: initialState })
 }))
