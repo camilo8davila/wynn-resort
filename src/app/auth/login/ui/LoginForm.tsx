@@ -39,14 +39,20 @@ export const LoginForm = () => {
   const onSubmit = async ({ email, password, rememberEmail }: FormLogin) => {
     setLoading(true, `Looking for user ${email}`);
     setRequestState({ ...initialValueRequest });
-    const response = await actions.login({ email, password, rememberEmail });
-    setLoading(false);
-    if (response.errors) {
-      setRequestState(value => ({ ...value, error: true, errorMessaje: response.errors.email }));
-      return;
+    try {
+      const response = await actions.login({ email, password, rememberEmail });
+      setLoading(false);
+      if (response.errors) {
+        setRequestState(value => ({ ...value, error: true, errorMessaje: response.errors.email }));
+        return;
+      }
+      setRequestState(initialValueRequest);
+      redirect(PATH_HOME);
+    } catch (error: any) {
+      console.warn(error?.message);
+      setLoading(false);
+      setRequestState(value => ({ ...value, error: true, errorMessaje: error?.message || 'Error to get user' }));
     }
-    setRequestState(initialValueRequest);
-    redirect(PATH_HOME);
   }
 
   return (

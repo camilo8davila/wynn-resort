@@ -69,7 +69,7 @@ export const SendCodeForm = () => {
     if (user) {
       deleteCookie(constants.COOKIE_REGISTER_STEP_1);
       deleteCookie(constants.COOKIE_REGISTER_STEP_2);
-      resetCache()
+      resetCache();
       redirect(constants.PATH_LOGIN);
     }
   }
