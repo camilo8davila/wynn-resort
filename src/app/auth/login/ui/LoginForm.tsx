@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getCookie } from 'cookies-next';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { useUiStore } from '@/store';
 import { Checkbox, Field, Fieldset, Input, Label } from '@/components';
@@ -22,6 +22,7 @@ const initialValueRequest = {
 
 export const LoginForm = () => {
   const setLoading = useUiStore(state => state.showLoading);
+  const navigation = useRouter();
   const { setValue, register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
     mode: 'onChange'
   });
@@ -47,7 +48,7 @@ export const LoginForm = () => {
         return;
       }
       setRequestState(initialValueRequest);
-      redirect(PATH_HOME);
+      navigation.push(PATH_HOME);
     } catch (error: any) {
       console.warn(error?.message);
       setLoading(false);

@@ -57,5 +57,5 @@ const createSession = async (user: User) => {
 
 export const logout = async () => {
   (await cookies()).delete("session");
-  redirect('/auth/login')
+  redirect('/auth/login');
 }

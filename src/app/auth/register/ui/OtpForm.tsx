@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
 import { bigCaslo } from '@/config/fonts';
@@ -20,6 +20,7 @@ const items = [
 
 export const OtpForm = () => {
   const userRegisterCache = useRegisterStore(state => state.firstPage);
+  const navigation = useRouter();
   const updateRegisterCache = useRegisterStore(state => state.updateRegisterCache);
 
   const { handleSubmit, formState: { errors }, control } = useForm<FormInputsWayToSend>({
@@ -31,7 +32,7 @@ export const OtpForm = () => {
   const onSubmit: SubmitHandler<FormInputsWayToSend> = (data) => {
     updateRegisterCache(data);
     setCookie(contants.COOKIE_REGISTER_STEP_2, 'true', { maxAge: 600 })
-    redirect(contants.PATH_REGISTER_SEND_CODE)
+    navigation.push(contants.PATH_REGISTER_SEND_CODE)
   }
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { deleteCookie } from 'cookies-next';
 import { bigCaslo } from '@/config/fonts';
@@ -17,6 +17,7 @@ interface FormInputs {
 }
 
 export const SendCodeForm = () => {
+  const navigation = useRouter();
   const userRegisterCache = useRegisterStore(state => state.firstPage);
   const resetCache = useRegisterStore(state => state.resetStore);
   const showLoading = useUiStore(state => state.showLoading);
@@ -52,7 +53,6 @@ export const SendCodeForm = () => {
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setRequestState({ error: false, errorMessaje: '' });
     showLoading(true, 'Creating user');
-    let user
     try {
       const response = await actions.verifyCode({ otp: data.code });
       if (isActionError(response)) {
@@ -60,17 +60,17 @@ export const SendCodeForm = () => {
         showLoading(false);
         return;
       }
-      user = await actions.createUser(userRegisterCache);
+      const user = await actions.createUser(userRegisterCache);
+      if (user) {
+        await deleteCookie(constants.COOKIE_REGISTER_STEP_1);
+        await deleteCookie(constants.COOKIE_REGISTER_STEP_2);
+        resetCache();
+        navigation.push(constants.PATH_LOGIN);
+      }
       showLoading(false);
     } catch (error: any) {
       setRequestState(state => ({ ...state, error: true, errorMessaje: error.message || 'Error creating user' }))
       showLoading(false);
-    }
-    if (user) {
-      deleteCookie(constants.COOKIE_REGISTER_STEP_1);
-      deleteCookie(constants.COOKIE_REGISTER_STEP_2);
-      resetCache();
-      redirect(constants.PATH_LOGIN);
     }
   }
 
