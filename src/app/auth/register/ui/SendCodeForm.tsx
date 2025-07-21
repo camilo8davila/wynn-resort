@@ -18,6 +18,7 @@ interface FormInputs {
 
 export const SendCodeForm = () => {
   const userRegisterCache = useRegisterStore(state => state.firstPage);
+  const resetCache = useRegisterStore(state => state.resetStore);
   const showLoading = useUiStore(state => state.showLoading);
   const { handleSubmit, formState: { errors }, control } = useForm<FormInputs>();
   const [requestState, setRequestState] = useState({
@@ -60,15 +61,16 @@ export const SendCodeForm = () => {
         return;
       }
       user = await actions.createUser(userRegisterCache);
-      deleteCookie(constants.COOKIE_REGISTER_STEP_1);
-      deleteCookie(constants.COOKIE_REGISTER_STEP_2);
       showLoading(false);
     } catch (error: any) {
       setRequestState(state => ({ ...state, error: true, errorMessaje: error.message || 'Error creating user' }))
       showLoading(false);
     }
     if (user) {
-      redirect(constants.PATH_LOGIN)
+      deleteCookie(constants.COOKIE_REGISTER_STEP_1);
+      deleteCookie(constants.COOKIE_REGISTER_STEP_2);
+      resetCache()
+      redirect(constants.PATH_LOGIN);
     }
   }
 
