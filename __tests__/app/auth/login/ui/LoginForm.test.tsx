@@ -3,10 +3,17 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { LoginForm } from '@/app/auth/login/ui/LoginForm';
 import * as actions from '../../../../../src/actions/auth/login'
+import { useRouter } from 'next/router';
 
 
 jest.mock('../../../../../src/actions/auth/login', () => ({
-  login: jest.fn()
+  login: (jest.fn())
+}));
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn()
+  })
 }));
 
 describe('LoginForm', () => {

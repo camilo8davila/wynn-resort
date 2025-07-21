@@ -9,8 +9,11 @@ const customJestConfig = {
   coverageProvider: 'v8',
   testEnvironment: 'jest-environment-jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+    transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/$1'
   },
   transformIgnorePatterns: [
     '/node_modules/(?!(jose)/)',

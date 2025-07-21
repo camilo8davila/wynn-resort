@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
 
@@ -29,6 +29,7 @@ export interface FormInputsBasic {
 
 export const RegisterForm = ({ countries = [], genders = [] }: Props) => {
   const userRegisterCache = useRegisterStore(state => state.firstPage);
+  const navigation = useRouter();
   const updateRegisterCache = useRegisterStore(state => state.updateRegisterCache);
 
   const { register, handleSubmit, formState: { errors }, control } = useForm<FormInputsBasic>({
@@ -41,7 +42,7 @@ export const RegisterForm = ({ countries = [], genders = [] }: Props) => {
   const onSubmit: SubmitHandler<FormInputsBasic> = (data) => {
     updateRegisterCache(data);
     setCookie(COOKIE_REGISTER_STEP_1, 'true', { maxAge: 600 });
-    redirect(PATH_REGISTER_OTP_VERIFICATION);
+    navigation.push(PATH_REGISTER_OTP_VERIFICATION);
   }
 
   return (
