@@ -5,6 +5,7 @@ import mockRouter from 'next-router-mock';
 import { SendCodeForm } from "@/app/auth/register/ui/SendCodeForm";
 import * as actions from '@/actions/auth/register';
 import * as constants from '@/utils';
+import { useRouter } from "next/navigation";
 
 const userMock = {
   id: "",
@@ -20,17 +21,13 @@ jest.mock('../../../../../src/actions/auth/register', () => ({
   createUser: jest.fn()
 }));
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn()
-  })
-}));
-
 describe('SendCodeForm', () => {
   const mockFetch = jest.mocked(fetch);
   const mockedCreateUser = jest.mocked(actions.createUser);
+  const mockUseRouter = jest.mocked(useRouter());
 
   beforeEach(() => {
+    mockUseRouter.push.mockClear();
     mockFetch.mockClear();
     mockedCreateUser.mockClear();
   })
@@ -54,7 +51,7 @@ describe('SendCodeForm', () => {
     });
   });
 
-  test.skip('should navigate to /auth/register/otp-verification if user click back button', async () => {
+  test('should navigate to /auth/register/otp-verification if user click back button', async () => {
     render(<SendCodeForm />, { wrapper: MemoryRouterProvider });
     await waitFor(() => {
       fireEvent.click(screen.getByRole('link', { name: /BACK/i }));
@@ -106,8 +103,7 @@ describe('SendCodeForm', () => {
     });
 
     await waitFor(() => {
-      const useRouter = jest.spyOn(require("next/router"), "useRouter");
-      expect(useRouter).not.toHaveBeenCalled();
+      expect(mockUseRouter.push).not.toHaveBeenCalled();
     });
   });
 });

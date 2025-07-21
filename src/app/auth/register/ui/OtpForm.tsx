@@ -31,7 +31,7 @@ export const OtpForm = () => {
 
   const onSubmit: SubmitHandler<FormInputsWayToSend> = (data) => {
     updateRegisterCache(data);
-    setCookie(contants.COOKIE_REGISTER_STEP_2, 'true', { maxAge: 600 })
+    setCookie(contants.COOKIE_REGISTER_STEP_2, 'true', { maxAge: 600 });
     navigation.push(contants.PATH_REGISTER_SEND_CODE)
   }
 

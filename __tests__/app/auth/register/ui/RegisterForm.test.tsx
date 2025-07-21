@@ -1,12 +1,8 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import { redirect } from 'next/navigation';
-
-import mockRouter from 'next-router-mock';
+import { useRouter } from 'next/navigation';
 
 
 import { RegisterForm } from "@/app/auth/register/ui/RegisterForm";
-import * as constants from '@/utils';
 import COUNTRIES from '../../../../../mocks/api/GET_200_countries.json'
 import GENDERS from '../../../../../mocks/api/GET_200_genders.json'
 
@@ -17,24 +13,17 @@ jest.mock('../../../../../src/components/ui/tooltip/Tooltip', () => ({
   ))
 }));
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn()
-  })
-}));
-
 describe('RegisterForm', () => {
-  // const mockedRedirect = jest.mocked(redirect);
+  const mockUseRouter = jest.mocked(useRouter());
   const mockFetch = jest.mocked(fetch);
 
   beforeEach(() => {
-    // mockedRedirect.mockClear();
     mockFetch.mockClear();
+    mockUseRouter.push.mockClear();
   });
 
   test('should render RegisterForm', async () => {
     const { container } = render(<RegisterForm countries={COUNTRIES} genders={GENDERS} />);
-
     expect(container).toBeTruthy();
   });
 
@@ -85,10 +74,7 @@ describe('RegisterForm', () => {
     });
 
     await waitFor(() => {
-      // console.log('redirect mock',mockedRedirect);
-      
-      // expect(mockedRedirect).toHaveBeenCalledTimes(1);
-      // expect(mockedRedirect).toHaveBeenCalledWith(constants.PATH_REGISTER_OTP_VERIFICATION);
+      expect(mockUseRouter.push).toHaveBeenCalledTimes(1);
     });
   });
 });

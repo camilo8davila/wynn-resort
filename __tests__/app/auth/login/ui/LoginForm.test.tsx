@@ -1,26 +1,22 @@
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useRouter } from 'next/navigation';
 
 import { LoginForm } from '@/app/auth/login/ui/LoginForm';
 import * as actions from '../../../../../src/actions/auth/login'
-import { useRouter } from 'next/router';
 
 
 jest.mock('../../../../../src/actions/auth/login', () => ({
   login: (jest.fn())
 }));
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn()
-  })
-}));
-
 describe('LoginForm', () => {
   const mockedLoginAction = jest.mocked(actions.login);
+  const mockUseRouter = jest.mocked(useRouter());
 
   beforeEach(() => {
     mockedLoginAction.mockClear();
+    mockUseRouter.push.mockClear();
   });
 
   test('Should render the LoginForm component', () => {
@@ -48,9 +44,6 @@ describe('LoginForm', () => {
     fireEvent.change(screen.getByLabelText(/password/i), { target: { value: '123456' } });
     fireEvent.change(remeberInput, { target: { value: true } });
 
-    const errorMessage = 'User not found'
-
-    mockedLoginAction.mockResolvedValueOnce({ errors: { email: errorMessage } })
     // Click loginbutton
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /NEXT/i }));
@@ -80,6 +73,28 @@ describe('LoginForm', () => {
 
     await act(async () => {
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
+  });
+
+  test('Should call onSubmit if the form is correctly filled and navigate', async () => {
+    render(<LoginForm />);
+
+    // Fill the form
+    const [emailInput, remeberInput] = screen.getAllByLabelText(/email/i);
+    fireEvent.change(emailInput, { target: { value: 'camilo7davila@gmail.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: '123456' } });
+    fireEvent.change(remeberInput, { target: { value: true } });
+
+    mockedLoginAction.mockResolvedValueOnce({ ok: true });
+    // Click loginbutton
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /NEXT/i }));
+    });
+
+    expect(mockedLoginAction).toHaveBeenCalled();
+
+    await act(async () => {
+      expect(mockUseRouter.push).toHaveBeenCalledTimes(1);
     });
   });
 });
