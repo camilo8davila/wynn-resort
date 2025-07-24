@@ -34,6 +34,11 @@ This project is a technical test for the frontend developer position of Wynn Al 
 - Cross platform
 
 
+## Demo
+
+Insert gif or link to demo
+
+https://www.youtube.com/watch?v=clcmpIBnn9o&ab_channel=camilohernandodavilabonilla
 ## folder structure
 
 ```
@@ -92,6 +97,12 @@ Go to the project directory
   cd wynn-restor
 ```
 
+Set up Environment variables, this project doesn't have external dependencies so you can start the app with the same variables in ```.template.env```
+
+```bash
+  Create a copy of .template.env end rename to .env and replace the enviroments
+```
+
 Set up Docker, inside the root folder run
 
 ```bash
@@ -102,12 +113,6 @@ Install dependencies, I recommend use ```node v20.xx.xx```
 
 ```bash
   npm install
-```
-
-Set up Environment variables, this project doesn't have external dependencies so you can start the app with the same variables in ```.template.env```
-
-```bash
-  Create a copy of .template.env end rename to .env and replace the enviroments
 ```
 
 Execute the next prisma commands
