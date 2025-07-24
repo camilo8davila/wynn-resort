@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, ClipboardEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 interface Props {
   length: number;
@@ -49,8 +49,28 @@ export const OtpNumber = ({ length, initValue, onChange, error }: Props) => {
     }
   }
 
+  const handlePaste = (event: ClipboardEvent<HTMLDivElement>) => {
+    const value = event.clipboardData.getData('text');
+
+    if (isNaN(value as any)) return;
+    console.log('pasamos validacion de nuemros');
+    const newOtp = [...otp];
+
+    `${value}`.split('').forEach((currentNumber, index) => {
+      newOtp[index] = currentNumber;
+    });
+    setOtp(newOtp);
+
+    // Submit trigger
+    const combineOtp = newOtp.join('');
+    onChange(combineOtp);
+
+    // Move focus at the last position
+    inputRefs.current![length - 1].focus()
+  }
+
   return (
-    <div className='flex items-center justify-center gap-3'>
+    <div className='flex items-center justify-center gap-3' onPaste={e => handlePaste(e)}>
       {
         otp.map((value, index) => (
           <input

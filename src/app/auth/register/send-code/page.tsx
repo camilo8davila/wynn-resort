@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { GridAuth, Title } from '@/components';
 import { SendCodeForm } from '../ui/SendCodeForm';
 export const metadata: Metadata = {
-  title: "Register 3/2",
+  title: "Register 3/3",
   description: "Luxury hotel in Dubai",
 };
 

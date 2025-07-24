@@ -67,7 +67,7 @@ export const LoginForm = () => {
             id='email'
             error={!!errors.email}
             errorMessage={errors.email?.message}
-            {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+            {...register('email', { required: true, pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i })}
           />
         </Field>
 

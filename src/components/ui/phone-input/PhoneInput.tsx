@@ -49,6 +49,7 @@ export const PhoneInput = ({
   const [inputValue, setInputValue] = useState<string>('');
   const [countryChose, setCountryChose] = useState<SelectOption | null>();
   const [inputSearch, setInputSearch] = useState('');
+  const [debouncedInputSearch, debouncedSetInputSearch] = useState('');
   const [filterCountriesList, setFilterCountriesList] = useState<SelectOption[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -87,12 +88,29 @@ export const PhoneInput = ({
     return country;
   }
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      debouncedSetInputSearch(inputSearch);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    }
+  }, [inputSearch]);
+
+  useEffect(() => {
+    if (debouncedInputSearch) {
+      console.log('Performing search for:', debouncedInputSearch);
+      const countriesFinded = optionCountries.filter(country => country.label.toLowerCase().includes(debouncedInputSearch));
+      setFilterCountriesList(countriesFinded);
+    }
+  }, [debouncedInputSearch]);
+
+
   const onInputSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const value = event.target.value.toLowerCase()
+    const value = event.target.value.toLowerCase();
     setInputSearch(value);
-    const countriesFinded = optionCountries.filter(country => country.label.toLowerCase().includes(value));
-    setFilterCountriesList(countriesFinded);
   }
 
   const resetStateWhenListIsClose = () => {
